@@ -50,9 +50,16 @@ def print_menu():
     print()
 
 def run_script(script_name):
-    """Run a Python script"""
+    """Run a Python script from this folder"""
+    script_dir = os.path.dirname(os.path.abspath(__file__))
+    script_path = os.path.join(script_dir, script_name)
+    if not os.path.exists(script_path):
+        print(f"\nScript not found next to this menu: {script_path}")
+        print("Tip: Keep all .py files in the same folder as this menu.")
+        return
+    print(f"Running: {script_path}")
     try:
-        subprocess.run([sys.executable, script_name], check=True)
+        subprocess.run([sys.executable, script_path], check=True)
     except subprocess.CalledProcessError:
         print(f"\nError running {script_name}")
     except FileNotFoundError:
@@ -64,7 +71,7 @@ def main():
     
     while True:
         print_menu()
-        choice = input("Enter your choice (1-6): ").strip()
+        choice = input("Enter your choice (1-7): ").strip()
         
         if choice == '1':
             print("\nStarting simple downloader...")
